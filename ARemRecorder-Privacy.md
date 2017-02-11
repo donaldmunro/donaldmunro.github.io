@@ -1,4 +1,5 @@
 # ARemRecorder Privacy Policy
+
 ## Logging of ANR and FC Events
 
 If you experience an "Application Not Responding", or "Forced Close" event while using

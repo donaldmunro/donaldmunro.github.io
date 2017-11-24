@@ -1,4 +1,11 @@
-# 3D Models Using TangoCamera
+# 3D Point Clouds for Objects Using TangoCamera
+In order to test pose and other algorithms for Computer Vision, having reasonably accurate 3D locations
+for points in 3D space is often a requirement. 3D models obtained using Structure-from-Motion provides
+one solution, but its often enough to have a single point cloud for an object. The procedure below
+describes how to obtain such a point cloud for some given object using a Tango equipped device with
+TangoCamera which should often be sufficent for tests where a 360 degree view of the object is not
+required.
+
 1. Take a photo with TangoCamera with point clouds enabled in the settings (the default is enabled)
    of the object to be modelled.  It is easiest if the item is isolated against a wall or if a large
    room is available then with nothing behind the object. It can also make it easier if some
@@ -6,13 +13,13 @@
    two A4 pages are placed in front of the object (the width of an A4 page being 210mm).
    ![Object Image](images/penclock.jpg "Image of Object")
 
-1. Copy the 3 files created by TangoCamera from the DCIM/TangoCamera directory into a local directory using adb, Android Studio Device Explorer or via a USB    mount. For the purposes of this example it is assumed the files are copied into a sub-directory called data, for example:
+1. Copy the 3 files created by TangoCamera from the DCIM/TangoCamera directory into a local directory using adb, Android Studio Device Explorer or via a USB mount. For the purposes of this example it is assumed the files are copied into a sub-directory called data, for example:
 
    ```
    adb pull /sdcard/DCIM/TangoCamera
    mv TangoCamera data
    ```
-   Also copy the 3 python scripts from the Analysis directory into the current directory.
+   Also copy the python scripts from the Analysis directory into the current directory.
 
 1. To view stats involving the point cloud use ply-analysis.py:
 
@@ -61,6 +68,16 @@
    Y translation is off. Subtracting the translation between the color camera and the IMU
    (see ["Coordinate frames for component alignment"](https://developers.google.com/tango/overview/frames-of-reference#coordinate_frames_for_component_alignment))
    seems to solve it, but its only tested on a Zenfone. Regardless, the identified points should be usable where 3D
-   model points are required, eg for testing PnP style pose algorithms. For algorithms which have issues with co-planar
-   points, it might be a good idea to allow Z color coding, rather than the Y color coding illustrated above, to help
-   select non co-planar points.
+   odel points are required, eg for testing PnP style pose algorithms. The command line used for the image above was:
+   ```
+   python project.py -c y data/20171122163055.165-94478.413933571.jpg data/20171122163055.165-94478.413933571.yaml test.ply
+   ```
+
+   For algorithms which have issues with co-planar   points, it might be a good idea to use Z color coding, rather than the
+   Y color coding illustrated above, to help select non co-planar points, ie change -c y to -c z in the above command line.
+
+1.  The ply-display.py script can be used to view the point cloud in 3D:
+    ```
+    python ply-display.py test.ply
+    ```
+    ![3D Point Cloud](images/display.png "3D Point Cloud")

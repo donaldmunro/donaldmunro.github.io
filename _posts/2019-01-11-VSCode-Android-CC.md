@@ -2,8 +2,6 @@
 layout: post
 title: Using Visual Studio Code as an Android C++ editor
 ---
-#Using Visual Studio Code as an Android C++ editor
-
 Personally I find Android Studio Clion based C++ editing somewhat irritating as it
 does not seem to integrate with even slightly complex CMakeLists.txt configurations
 properly leading to correctly specified include files being flagged as missing. This

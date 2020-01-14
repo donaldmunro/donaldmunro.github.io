@@ -1,13 +1,8 @@
- ---
-layout: post
-title: Smooth Manifolds made Concrete (An extended example of a smooth manifold)
---- 
-
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
 
-<title>stereographic</title>
+<title>ConcreteManifolds</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13082,9 +13077,19 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Extended-Manifold-Example">Extended Manifold Example<a class="anchor-link" href="#Extended-Manifold-Example">&#182;</a></h1><p>The intention behind this notebook is to provide an extended and comprehensive example of a smooth manifold.
-The example is the prototypical stereographic projection considering the sphere $S^2$ as a manifold. 
-We start with deriving the chart maps and their inverses.</p>
+<h1 id="Smooth-Manifolds-made-Concrete-for-Dumbasses">Smooth Manifolds made Concrete for Dumbasses<a class="anchor-link" href="#Smooth-Manifolds-made-Concrete-for-Dumbasses">&#182;</a></h1><p>The intention behind this document is to provide an extended and comprehensive example of a smooth manifold for dumbasses 
+like me who can't always grok the heavily abstract without a more concrete example, or as the OO framework types would say,
+a reification. The extended example is the prototypical/canonical stereographic projection considering the sphere $S^2$ as a manifold. 
+Examples cover deriving the charts, finding the inverses functions between manifolds including deriving an ellipsoid stereographic manifold, 
+and tangent spaces including both equivalence classes of curves and derivation based approaches, illustrating proofs of vector space closure
+and change of basis of tangent vectors. The examples are based on using the open source <a href="https://www.sagemath.org/">SageMath</a> Computer Algebra System (CAS)
+to create an interactive notebook. Sage is available on most Linux distributions and the web site also has a Windows installer. The notebook has also 
+been converted to a Latex/SageTex document which hides most of the Sage specific manipulation and shows just the mathematics for those who aren't interested in
+Sage (although you lose the ability to interact with the content including the graphs). Note Sage does have 
+<a href="http://doc.sagemath.org/html/en/reference/manifolds/sage/manifolds/differentiable/manifold.html">built in Manifold</a> support, but this document won't be using it
+as the intention is to provide examples from first principles. Errors or misunderstandings on my part or also more than likely as I am a computer scientist who 
+dabbles in mathematics for Computer Vision, Machine Learning and Neural Networks, therefore any error corrections or suggestions 
+for improvements would also be welcome.</p>
 
 </div>
 </div>
@@ -13152,7 +13157,7 @@ We start with deriving the chart maps and their inverses.</p>
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="The-Stereographic-Projection-Atlas">The Stereographic Projection Atlas<a class="anchor-link" href="#The-Stereographic-Projection-Atlas">&#182;</a></h2><p>The sterographic projection is the canonical example for a topological/smooth manifold. The example shown
-here will map $S^2$ to $R^2$, although it can be extended to $S^n \rightarrow R^n$..</p>
+here will map $S^2$ to $R^2$, although it can be extended to $S^n \rightarrow R^n$.</p>
 <p>The sphere $S^2$ is seen as a manifold having an atlas with two open sets and associated charts. The first chart is defined on the open set 
 defined by the full sphere excluding the north (top) pole $(0,0,1)$, while the second chart is defined on a set that excludes only the south 
 (bottom) $(0,0,1)$ pole. Both charts project a point on the sphere surface to the plane at $z=0$ by extending a line from the excluded pole 
@@ -13366,7 +13371,7 @@ $(\frac{1}{2}, \frac{1}{2},-\frac{1}{\sqrt{2}})$ projected to the plane z = 0:</
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sage.plot.plot3d.shapes2</span> <span class="kn">import</span> <span class="n">Line</span>
-<span class="k">def</span> <span class="nf">to_float</span><span class="p">(</span><span class="n">v</span><span class="p">):</span> <span class="c1"># Temp fix to convert to float from Sage type (see https://trac.sagemath.org/ticket/28949)</span>
+<span class="k">def</span> <span class="nf">to_float</span><span class="p">(</span><span class="n">v</span><span class="p">):</span> <span class="c1"># Temp fix to convert to float from Sage type (see https://trac.sagemath.org/ticket/28949) for Sage 9</span>
     <span class="n">vv</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)):</span>
         <span class="n">vv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
@@ -13887,7 +13892,7 @@ however to be valid charts they must also be bicontinuous, ie the inverse must b
 homeomorphic to $R^2$.</p>
 <p>To find the inverse first find the unit vector in the direction of the line 
 joining the pole to the projected coordinates, for example 
-$d = \frac{((0, 0, 1) - (u, v, 0))}{|(0, 0, 1) - (u, v, 0))|}$:</p>
+$\vec{d} = \frac{((0, 0, 1) - (u, v, 0))}{|(0, 0, 1) - (u, v, 0))|}$:</p>
 
 </div>
 </div>
@@ -13927,7 +13932,7 @@ $d = \frac{((0, 0, 1) - (u, v, 0))}{|(0, 0, 1) - (u, v, 0))|}$:</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now express the line from the pole to the projection as a vector equation $(0, 0, 1) + l d$:</p>
+<p>Now express the line from the pole to the projection as a vector equation $(0, 0, 1) + l \vec{d}$:</p>
 
 </div>
 </div>
@@ -13968,9 +13973,9 @@ $d = \frac{((0, 0, 1) - (u, v, 0))}{|(0, 0, 1) - (u, v, 0))|}$:</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The intersection of this line with the sphere occurs where  $|(0, 0, 1) + l d - (0, 0, 0)| = 1$, or more generally 
-$|(0, 0, 1) + l d - \vec{c}| = r$ where $\vec{c}$ is the sphere centre and r is the radius. This can also be
-expressed as $[(0, 0, 1) + l d - (0, 0, 0)] \bullet [(0, 0, 1) + l d - (0, 0, 0)] = r$:</p>
+<p>The intersection of this line with the sphere occurs where  $|(0, 0, 1) + l\vec{d} - (0, 0, 0)| = 1$, or more generally 
+$|(0, 0, 1) + l\vec{d} - \vec{c}| = r$ where $\vec{c}$ is the sphere centre and r is the radius. This can also be
+expressed as $[(0, 0, 1) + l\vec{d} - (0, 0, 0)] \bullet [(0, 0, 1) + l\vec{d} - (0, 0, 0)] = r$:</p>
 
 </div>
 </div>
@@ -14234,19 +14239,19 @@ that the intersection of their domain open sets be empty ie $S^2 - (0, 0, 1) \ca
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Smooth-Functions-between-Manifolds">Smooth Functions between Manifolds<a class="anchor-link" href="#Smooth-Functions-between-Manifolds">&#182;</a></h2><p>A smooth map $F: M \rightarrow N$ can be described (Lee 2012) as</p>
+<h2 id="Smooth-Functions-between-Manifolds">Smooth Functions between Manifolds<a class="anchor-link" href="#Smooth-Functions-between-Manifolds">&#182;</a></h2><p>A smooth map $F: M \rightarrow N$ can be described  [Lee, 2012] as</p>
 <blockquote><p>if for every $p \in M$, there exist smooth charts $(U, \phi)$ containing $p$ and $(V, \psi)$ containing $F(p)$ such that 
 $F(U) \subseteq V$ and the composite map $\psi \circ F \circ \phi^{-1}$ is smooth from $\phi(U)$ to $\psi(V)$.</p>
 </blockquote>
 <p>We will start by defining a manifold E on an ellipsoid to use as the destination manifold corresponding to N above for the map. 
 U will then correspond to either $S^2 - (0, 0, 1)$ or  $S^2 - (0, 0, -1)$ depending on the source chart selection. 
 N will similarly correspond to $E - (0, 0, 1)$ or  $E - (0, 0, -1)$.
-Because E uses $ (0, 0, 1)$ and $ (0, 0, -1)$ the a and b ellipse axes are arbitarily defined but $c = 1$ (the z semi-axis) to ensure that
+Because E uses $(0, 0, 1)$ and $(0, 0, -1)$ the a and b ellipse axes are arbitarily defined but $c = 1$ (the z semi-axis) to ensure that
 the poles are at $(0, 0, 1)$ and $(0, 0, -1)$.</p>
 <h3 id="The-Ellipsoid-as-a-Stereographical-Manifold">The Ellipsoid as a Stereographical Manifold<a class="anchor-link" href="#The-Ellipsoid-as-a-Stereographical-Manifold">&#182;</a></h3><p>The chart map from the ellipsoid to $R^2$ can be derived similarly to the sphere,resulting in $u=-\frac{x}{z-1}, v=-\frac{y}{z-1}$ 
 for the north chart and $u=\frac{x}{z+1}, v=\frac{y}{z+1}$, but with $z$ calculated for the ellipse. The inverse is a little more
 problematic however. As with the sphere start by describing the line from the pole to the projection in terms of a unit vector 
-pointing in the direction of the line $L = (0, 0, 1) + \lambda \frac{(0, 0, 1) - (u, v, 0)}{|(0, 0, 1) - (u, v, 0)|}$:</p>
+pointing in the direction of the line $L = (0, 0, 1) + l \frac{(0, 0, 1) - (u, v, 0)}{|(0, 0, 1) - (u, v, 0)|}$:</p>
 
 </div>
 </div>
@@ -14717,14 +14722,13 @@ you <strong>really</strong> enjoy Algebra):</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Tangent-Vectors-and-Spaces">Tangent Vectors and Spaces<a class="anchor-link" href="#Tangent-Vectors-and-Spaces">&#182;</a></h2><p>Confusingly there are three different approaches to defining tangent spaces on manifolds (Montgomery 2012, Jänich 2001), although most textbooks 
-only mention the one they are describing. These examples will cover the geometrically based curve approach 
-and the more algebraic derivation approach.</p>
-<h3 id="Tangent-Spaces-defined-on-Curves">Tangent Spaces defined on Curves<a class="anchor-link" href="#Tangent-Spaces-defined-on-Curves">&#182;</a></h3><p>This approach starts with a curve with a domain on an interval of $R^1$ and the manifold $M$ as the co-domain i.e $a: I \subset R^1 \rightarrow M$. 
+<h2 id="Tangent-Vectors-and-Spaces">Tangent Vectors and Spaces<a class="anchor-link" href="#Tangent-Vectors-and-Spaces">&#182;</a></h2><p>Confusingly there are three different approaches to defining tangent spaces on manifolds [Montgomery 2016]. These examples will cover the 
+geometrically based curve approach and the more algebraic derivation approach.</p>
+<h3 id="Tangent-Spaces-defined-as-Equivalence-class-of-Curves">Tangent Spaces defined as Equivalence class of Curves<a class="anchor-link" href="#Tangent-Spaces-defined-as-Equivalence-class-of-Curves">&#182;</a></h3><p>This approach starts with a curve with a domain on an interval of $R^1$ and the manifold $M$ as the co-domain i.e $\lambda: I \subset R^1 \rightarrow M$. 
 The simplest approach combines the co-domain of the curve with a chart map to define curves as being tangent at a point $p$ if [Isham 1999 page 73]:</p>
 <ol>
-<li>Values on the manifold correspond ie $\sigma_{1}(t_0)=\sigma_{2}(t_1) = p$</li>
-<li>The velocities at the point in a chart are the same ie $(c_n \circ \sigma_{1})^\prime\lvert_{t=t_0} = (c_n \circ \sigma_{2})^\prime\lvert_{t=t_1}$</li>
+<li>Values on the manifold correspond ie $\lambda_{1}(t_0)=\lambda_{2}(t_1) = p$</li>
+<li>The velocities at the point in a chart are the same ie $(c_n \circ \lambda_{1})^\prime\lvert_{t=t_0} = (c_n \circ \lambda_{2})^\prime\lvert_{t=t_1}$</li>
 </ol>
 <p>The curve used in the example is a spiral on $S^2$ (from <a href="https://math.stackexchange.com/questions/140541/finding-parametric-curves-on-a-sphere">math.stackexchange</a>)</p>
 <p>$\lambda_1 = (x, y, z): (\sqrt{1-t^{2}} \cos (a \pi t), \sqrt{1-t^{2}} \sin (a \pi t), t)$</p>
@@ -15467,11 +15471,13 @@ we find the inverse of the tangent line in the chart which results in a circle i
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Derivations">Derivations<a class="anchor-link" href="#Derivations">&#182;</a></h4><p>A derivation at a point in a $C^\infty$ manifold is defined to be a linear map $D(C^\infty) \rightarrow R$,</p>
+<h2 id="Derivation-based-Approach">Derivation based Approach<a class="anchor-link" href="#Derivation-based-Approach">&#182;</a></h2><p>A derivation at a point in a $C^\infty$ manifold is defined to be a linear map $D(C^\infty) \rightarrow R$,</p>
 <p>$(D_{1}+D_{2})(f) = D_{1}(f)+D_{2}(f)$</p>
 <p>$(\lambda  D)(f) = \lambda  D(f)$
 which also obeys the Leibnitz identity $D(f g)=D(f) \cdot g(x)+f(x) \cdot D(g)$.</p>
-<p>See [Parzygnat 2017] lecture 12 part 3 for a description of derivations and associated associative algebra (in a Euclidean
+<p>Computer science types could see the derivation as defining an abstract interface, with the actual derivitive
+being a concrete class implementing the abstract interface.</p>
+<p>See Parzygnat [2017] (lecture 12 part 3) for a description of derivations and associated associative algebra (in a Euclidean
 manifold context, but most of what is covered also applies to general manifolds, other than the manifold chart map directions 
 are inverted).</p>
 <p>A tangent vector can then be applied to a $C^\infty$ function $f$ given a curve $\lambda$ by $D(f \circ \lambda)[t]$ 
@@ -15487,10 +15493,10 @@ containing the proofs. Intermediate results in the proofs are also illustrated u
 will be a Jacobian, and in many cases with tangent spaces mapping to $R^1$ will be vectors, although transition maps between charts for example 
 will be matrices. In some cases the differention operator $D$ will be subscripted with the variables w.r.t. which the differentiation is taking
 place eg $D_t$. This is in contrast with many physics books which use the old fashioned multiple different chain rules to extensively 
-utilize component indexing, instead of one chain rule using linear transformations with Jacobian matrices applying in all cases (as for example
-in Spivak's 'Calculus on Manifolds'). Where applicable the comparable 'standard' notation will also be shown.</p>
-<p>We will continue to use the curves defined in the previous section. We also define $f(\vec{p}) : S \rightarrow R = 2x + 2y + 2z$ (where z is on the 
-manifold ie $z = \sqrt{1 - x^2 - y^2}$. 
+utilize component indexing, instead of one chain rule using linear transformations with Jacobian matrices applying in all cases (as for example in 
+Spivak [1965] or more colorfully in Ghrist [2016] and Ghrist [2019]). Where applicable the comparable 'standard' notation will also be shown.</p>
+<p>We will continue to use the curves defined in the previous section. We also define $f(\vec{p}) : S \rightarrow R = 2x + 2y + 2z$ (where z is 
+constrained to be on the manifold ie $z = \sqrt{1 - x^2 - y^2}$). 
 Now  $D(f \circ \lambda_1)$ and $D(f \circ \lambda_2)$ are velocities:</p>
 
 </div>
@@ -15504,9 +15510,9 @@ Now  $D(f \circ \lambda_1)$ and $D(f \circ \lambda_2)$ are velocities:</p>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">)</span>
 <span class="n">f</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">z</span>
 <span class="n">d1</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">K_1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span> <span class="o">=</span> <span class="n">K_1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">z</span> <span class="o">=</span> <span class="n">K_1</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-<span class="n">d2</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">Tm</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span> <span class="o">=</span> <span class="n">Tm</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">z</span> <span class="o">=</span> <span class="n">Tm</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">full_simplify</span><span class="p">()</span>
-<span class="n">pretty_print</span><span class="p">(</span><span class="n">LatexExpr</span><span class="p">(</span><span class="s2">&quot;(f </span><span class="se">\\</span><span class="s2">circ </span><span class="se">\\</span><span class="s2">lambda_1)^</span><span class="se">\\</span><span class="s2">prime~=~&quot;</span><span class="p">),</span> <span class="n">d1</span><span class="p">)</span>
-<span class="n">pretty_print</span><span class="p">(</span><span class="n">LatexExpr</span><span class="p">(</span><span class="s2">&quot;(f </span><span class="se">\\</span><span class="s2">circ </span><span class="se">\\</span><span class="s2">lambda_2)^</span><span class="se">\\</span><span class="s2">prime~=~&quot;</span><span class="p">),</span> <span class="n">d2</span><span class="p">)</span>
+<span class="n">d2</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">Tm</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span> <span class="o">=</span> <span class="n">Tm</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">z</span> <span class="o">=</span> <span class="n">Tm</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="c1">#.full_simplify()</span>
+<span class="n">pretty_print</span><span class="p">(</span><span class="n">LatexExpr</span><span class="p">(</span><span class="s2">&quot;D(f </span><span class="se">\\</span><span class="s2">circ </span><span class="se">\\</span><span class="s2">lambda_1)~=~&quot;</span><span class="p">),</span> <span class="n">d1</span><span class="p">)</span>
+<span class="n">pretty_print</span><span class="p">(</span><span class="n">LatexExpr</span><span class="p">(</span><span class="s2">&quot;D(f </span><span class="se">\\</span><span class="s2">circ </span><span class="se">\\</span><span class="s2">lambda_2)~=~&quot;</span><span class="p">),</span> <span class="n">d2</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15524,7 +15530,7 @@ Now  $D(f \circ \lambda_1)$ and $D(f \circ \lambda_2)$ are velocities:</p>
 
 
 <div class="output_html rendered_html output_subarea ">
-<html><script type="math/tex; mode=display">\newcommand{\Bold}[1]{\mathbf{#1}}(f \circ \lambda_1)^\prime~=~ 14 \, \pi \sqrt{-t^{2} + 1} \cos\left(7 \, \pi t\right) - 14 \, \pi \sqrt{-t^{2} + 1} \sin\left(7 \, \pi t\right) - \frac{2 \, t \cos\left(7 \, \pi t\right)}{\sqrt{-t^{2} + 1}} - \frac{2 \, t \sin\left(7 \, \pi t\right)}{\sqrt{-t^{2} + 1}} + 2</script></html>
+<html><script type="math/tex; mode=display">\newcommand{\Bold}[1]{\mathbf{#1}}D(f \circ \lambda_1)~=~ 14 \, \pi \sqrt{-t^{2} + 1} \cos\left(7 \, \pi t\right) - 14 \, \pi \sqrt{-t^{2} + 1} \sin\left(7 \, \pi t\right) - \frac{2 \, t \cos\left(7 \, \pi t\right)}{\sqrt{-t^{2} + 1}} - \frac{2 \, t \sin\left(7 \, \pi t\right)}{\sqrt{-t^{2} + 1}} + 2</script></html>
 </div>
 
 </div>
@@ -15536,7 +15542,7 @@ Now  $D(f \circ \lambda_1)$ and $D(f \circ \lambda_2)$ are velocities:</p>
 
 
 <div class="output_html rendered_html output_subarea ">
-<html><script type="math/tex; mode=display">\newcommand{\Bold}[1]{\mathbf{#1}}(f \circ \lambda_2)^\prime~=~ -\frac{3 \, {\left({\left(250047 \, \pi^{3} {\left(\sqrt{5} - 1\right)} + 99225 \, \pi^{2} {\left(\sqrt{5} - 1\right)} + 39375 \, \pi {\left(\sqrt{5} - 1\right)} + 15625 \, \sqrt{5} - 15625\right)} s^{2} + 6 \, {\left(3969 \, \pi^{2} {\left(3 \, \sqrt{5} - 7\right)} + 1875 \, \sqrt{5} - 4375\right)} s - 5670 \, \pi {\left(\sqrt{5} - 1\right)} - {\left(5670 \, \pi - {\left(39375 \, \pi + 250047 \, \pi^{3} - 99225 \, \pi^{2} - 15625\right)} s^{2} + 18 \, {\left(3969 \, \pi^{2} + 625\right)} s + 1800\right)} \sqrt{2 \, \sqrt{5} + 10} + 1800 \, \sqrt{5} - 7200\right)}}{{\left(15752961 \, \pi^{4} + 4961250 \, \pi^{2} + 390625\right)} s^{4} + 900 \, {\left(3969 \, \pi^{2} + 625\right)} s^{3} + 1260 \, {\left(567 \, \pi^{2} + 250\right)} s^{2} + 81000 \, s + 8100}</script></html>
+<html><script type="math/tex; mode=display">\newcommand{\Bold}[1]{\mathbf{#1}}D(f \circ \lambda_2)~=~ \frac{4 \, {\left({\left(3969 \, \pi^{2} + 625\right)} s + 225\right)}}{{\left(3969 \, \pi^{2} + 625\right)} s^{2} + 450 \, s + 90} - \frac{4 \, {\left({\left(3969 \, \pi^{2} + 625\right)} s^{2} + 450 \, s + 72\right)} {\left({\left(3969 \, \pi^{2} + 625\right)} s + 225\right)}}{{\left({\left(3969 \, \pi^{2} + 625\right)} s^{2} + 450 \, s + 90\right)}^{2}} - \frac{6 \, {\left(63 \, \pi s {\left(\sqrt{5} - 1\right)} - {\left(25 \, s + 9\right)} \sqrt{2 \, \sqrt{5} + 10}\right)} {\left({\left(3969 \, \pi^{2} + 625\right)} s + 225\right)}}{{\left({\left(3969 \, \pi^{2} + 625\right)} s^{2} + 450 \, s + 90\right)}^{2}} - \frac{6 \, {\left(63 \, \pi s \sqrt{2 \, \sqrt{5} + 10} + 25 \, s {\left(\sqrt{5} - 1\right)} + 9 \, \sqrt{5} - 9\right)} {\left({\left(3969 \, \pi^{2} + 625\right)} s + 225\right)}}{{\left({\left(3969 \, \pi^{2} + 625\right)} s^{2} + 450 \, s + 90\right)}^{2}} + \frac{3 \, {\left(63 \, \pi {\left(\sqrt{5} - 1\right)} - 25 \, \sqrt{2 \, \sqrt{5} + 10}\right)}}{{\left(3969 \, \pi^{2} + 625\right)} s^{2} + 450 \, s + 90} + \frac{3 \, {\left(63 \, \pi \sqrt{2 \, \sqrt{5} + 10} + 25 \, \sqrt{5} - 25\right)}}{{\left(3969 \, \pi^{2} + 625\right)} s^{2} + 450 \, s + 90}</script></html>
 </div>
 
 </div>
@@ -15548,7 +15554,9 @@ Now  $D(f \circ \lambda_1)$ and $D(f \circ \lambda_2)$ are velocities:</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To demonstrate the curves form a vector space (for this example anyway) we first add $\lambda_1 + \lambda_2$.</p>
+<p>To demonstrate the curves form a vector space (for this example anyway), before providing a proof (of closure under addition and scalar multiplication</p>
+
+<pre><code>- the rest is left as an exercise for the reader $\smile$) we first add $\lambda_1 + \lambda_2$.</code></pre>
 
 </div>
 </div>
@@ -15654,7 +15662,7 @@ Now  $D(f \circ \lambda_1)$ and $D(f \circ \lambda_2)$ are velocities:</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h5 id="Additive-Closure-Proof">Additive Closure Proof<a class="anchor-link" href="#Additive-Closure-Proof">&#182;</a></h5><p>The proof starts with a construction, which given two existing curves $\lambda_1,\lambda_2$ intersecting at point $\vec{p}$ at parameter values
+<h3 id="Additive-Closure-Proof">Additive Closure Proof<a class="anchor-link" href="#Additive-Closure-Proof">&#182;</a></h3><p>The proof starts with a construction, which given two existing curves $\lambda_1,\lambda_2$ intersecting at point $\vec{p}$ at parameter values
 $t_1$ and $t_2$, constructs a third curve $\lambda_3$ also intersecting $\vec{p}$ at a parameter $t_3$ ie $\lambda_1(t_1) = \lambda_2(t_2) = \lambda_3(t_3) = \vec{p}$:</p>
 <p>$\lambda_3(t) = c^{-1}\{ (c \circ \lambda_1)[t_1 + t] + (c \circ \lambda_2)[t_2 + t] - (c \circ \lambda_1)[t_1]\}$</p>
 <p>At $t = 0$ this evaluates to $c^{-1}\{ c(\vec{p}) + c(\vec{p}) - c(\vec{p}) \} = c^{-1}(c(\vec{p})) = \vec{p}$ so $t_3 = 0$. Checking 
@@ -15785,7 +15793,7 @@ $D(f \circ \lambda_2)[t_2] \therefore$ the equation that shall remain unnumbered
 
 
 <div class="output_html rendered_html output_subarea ">
-<html><script type="math/tex; mode=display">\newcommand{\Bold}[1]{\mathbf{#1}}D(f \circ \lambda_1) + D(f \circ \lambda_2) = 36.96466 ~+~ 36.96466 ~=~ 73.92932 = D(f \circ \lambda_3) =  73.92932</script></html>
+<html><script type="math/tex; mode=display">\newcommand{\Bold}[1]{\mathbf{#1}}D(f \circ \lambda_1) + D(f \circ \lambda_2) = 36.96466 ~+~ 36.96466 ~=~ 73.92933 = D(f \circ \lambda_3) =  73.92932</script></html>
 </div>
 
 </div>
@@ -15797,7 +15805,7 @@ $D(f \circ \lambda_2)[t_2] \therefore$ the equation that shall remain unnumbered
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h5 id="Scalar-Multiplication-Closure">Scalar Multiplication Closure<a class="anchor-link" href="#Scalar-Multiplication-Closure">&#182;</a></h5><p>Proving closure under scalar multiplication is easier and does not involve any charts. Again start with a construction for 
+<h3 id="Scalar-Multiplication-Closure">Scalar Multiplication Closure<a class="anchor-link" href="#Scalar-Multiplication-Closure">&#182;</a></h3><p>Proving closure under scalar multiplication is easier and does not involve any charts. Again start with a construction for 
 the new curve $\lambda_3$ tangent at $\vec{p}$ ie $\lambda_1(t_1) = \lambda_3(t_3) = \vec{p}$ in terms of $\lambda_1$:</p>
 <p>$\lambda_3(t) = \lambda_1(a t + t_1) = (\lambda_1 \circ u_a)[t_3]~~a \in R,~u_a(t) :R \rightarrow R = a t + t_1$</p>
 <p>At $t = 0$ this evaluates to $\lambda_3(0) = \lambda_1(0 \cdot a + t_1) = \lambda_1(t_1) = \vec{p}$ so $t_3 = 0$.</p>
@@ -15812,7 +15820,7 @@ the new curve $\lambda_3$ tangent at $\vec{p}$ ie $\lambda_1(t_1) = \lambda_3(t_
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Chart-Realizations-for-Tangent-Space">Chart Realizations for Tangent Space<a class="anchor-link" href="#Chart-Realizations-for-Tangent-Space">&#182;</a></h3><p>We start by introducing a chart $c$ into a velocity vector applied to an arbitrary function $f$ for a curve $\lambda(t_1) = \vec{p} \in U \subseteq M$:</p>
+<h2 id="Chart-Realizations-for-Tangent-Space">Chart Realizations for Tangent Space<a class="anchor-link" href="#Chart-Realizations-for-Tangent-Space">&#182;</a></h2><p>We start by introducing a chart $c$ into a velocity vector applied to an arbitrary function $f$ for a curve $\lambda(t_1) = \vec{p} \in U \subseteq M$:</p>
 <p>$D((f \circ c^{-1}) \circ (c \circ \lambda))[t_1]$</p>
 <p>Applying the chain rule once again:</p>
 <p>$D_{u,v}(f \circ c^{-1})[c \circ \lambda(t_1)] \cdot D_t(c \circ \lambda)[t_1] = D_t(c \circ \lambda)[t_1] \cdot D_{u,v}(f \circ c^{-1})[c(\vec{p})]$</p>
@@ -15954,7 +15962,7 @@ as a chart induced basis.</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Change-of-basis-for-Tangent-Space-Components">Change of basis for Tangent Space Components<a class="anchor-link" href="#Change-of-basis-for-Tangent-Space-Components">&#182;</a></h3><p>Given two charts $(U, c_1)$ and $(V, c_2)$  where $U \cap V \neq \emptyset$, where the tangent vector to a point $\vec{p} \in U,V$
+<h2 id="Change-of-basis-for-Tangent-Space-Components">Change of basis for Tangent Space Components<a class="anchor-link" href="#Change-of-basis-for-Tangent-Space-Components">&#182;</a></h2><p>Given two charts $(U, c_1)$ and $(V, c_2)$  where $U \cap V \neq \emptyset$, where the tangent vector to a point $\vec{p} \in U,V$
 is known relative to say $U$, then the equivalent basis vector for $V$ can be derived:</p>
 <ol>
 <li>Recall the expression for the basic component from the previous section and once again apply the idiom of using the inverse of a map after the map,
@@ -16103,7 +16111,7 @@ tangent are found is the northern hemisphere test point, and the curve is the sa
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Most (physics) textbooks use a shorthand notation for $D_{u,v}(c_2 \circ c_1^{-1})[c_1(\vec{p})] \cdot D_t(c_1 \circ \lambda)[t_1]$, namely 
-$\frac{\partial c_2^j}{\partial c_1^i} \cdot X^i_{c_1}$ where the $\frac{\partial c_2^i}{\partial c_1^j}$ refers to the Jacobian matrix
+$\frac{\partial c_2^j}{\partial c_1^i} \cdot X^i_{c_1}$ where the $\frac{\partial c_2^j}{\partial c_1^i}$ refers to the Jacobian matrix
 with the superscript indices corresponding to rows and columns from the matrix, while the $X^i_{c_1}$ term is a generic reference
 to the components in the convert-from chart minus any curve information.</p>
 
@@ -16113,43 +16121,43 @@ to the components in the convert-from chart minus any curve information.</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2>Bibliography</h2><div class="csl-bib-body" style="line-height: 1.35; margin-left: 2em; text-indent:-2em;">
-    <div class="csl-entry">Isham, Chris J. <i>Modern Differential Geometry for Physicists</i>. 2nd ed. Vol. 61. World
-      Scientific Lecture Notes in Physics. WORLD SCIENTIFIC, 1999. <a
-        href="https://doi.org/10.1142/3867">https://doi.org/10.1142/3867</a>.</div>
-    <span class="Z3988"
-      title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=urn%3Aisbn%3A978-981-02-3555-0%20978-981-238-659-5&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Modern%20Differential%20Geometry%20for%20Physicists&amp;rft.publisher=WORLD%20SCIENTIFIC&amp;rft.edition=2&amp;rft.series=World%20Scientific%20Lecture%20Notes%20in%20Physics&amp;rft.aufirst=Chris%20J&amp;rft.aulast=Isham&amp;rft.au=Chris%20J%20Isham&amp;rft.date=1999-03&amp;rft.isbn=978-981-02-3555-0%20978-981-238-659-5&amp;rft.language=en"></span>
-  </div>
-<div class="csl-bib-body" style="line-height: 1.35; margin-left: 2em; text-indent:-2em;">
-  <div class="csl-entry">Jänich, Klaus. <i>Vector Analysis</i>. Undergraduate Texts in Mathematics. New York, NY:
-    Springer New York, 2001. <a
-      href="https://doi.org/10.1007/978-1-4757-3478-2">https://doi.org/10.1007/978-1-4757-3478-2</a>.</div>
-  <span class="Z3988"
-    title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=urn%3Aisbn%3A978-1-4419-3144-3%20978-1-4757-3478-2&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Vector%20Analysis&amp;rft.place=New%20York%2C%20NY&amp;rft.publisher=Springer%20New%20York&amp;rft.series=Undergraduate%20Texts%20in%20Mathematics&amp;rft.aufirst=Klaus&amp;rft.aulast=J%C3%A4nich&amp;rft.au=Klaus%20J%C3%A4nich&amp;rft.au=S.%20Axler&amp;rft.au=F.%20W.%20Gehring&amp;rft.au=K.%20A.%20Ribet&amp;rft.date=2001&amp;rft.isbn=978-1-4419-3144-3%20978-1-4757-3478-2">
-  </span>
+<p><h2>Bibliography</h2></p>
+<p><style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style></p>
+<div id="refs" class="references hanging-indent" role="doc-bibliography">
+<div id="ref-ghrist">
+<p>Ghrist, R. 2016. <em>Calculus Blue Multivariable Volume 2: Derivatives</em>. 3rd ed. Agenbyte Press. <a href="https://www.amazon.com/Calculus-BLUE-Multivariable-2-Derivatives-ebook/dp/B01BNSZG10">https://www.amazon.com/Calculus-BLUE-Multivariable-2-Derivatives-ebook/dp/B01BNSZG10</a>.</p>
 </div>
-  <div class="csl-entry">Hochs, Peter <i>Manifolds, Tangent Spaces, Cotangent Spaces, Vector Fields, Flow, Integral Curves</i>
-    <a href="http://maths.adelaide.edu.au/peter.hochs/Tangent_spaces.pdf">Online</a>.
-  </div>
-  <div class="csl-bib-body" style="line-height: 1.35; margin-left: 2em; text-indent:-2em;">
-    <div class="csl-entry">Lee, John M. <i>Introduction to Smooth Manifolds</i>. 2nd-Ed Graduate Texts in
-      Mathematics. New York, NY: Springer New York, 2012. <a
-        href="https://doi.org/10.1007/978-1-4419-9982-5">https://doi.org/10.1007/978-1-4419-9982-5</a>.</div>
-    <span class="Z3988"
-      title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=urn%3Aisbn%3A978-1-4419-9981-8%20978-1-4419-9982-5&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Introduction%20to%20Smooth%20Manifolds&amp;rft.place=New%20York%2C%20NY&amp;rft.publisher=Springer%20New%20York&amp;rft.series=Graduate%20Texts%20in%20Mathematics&amp;rft.aufirst=John%20M.&amp;rft.aulast=Lee&amp;rft.au=John%20M.%20Lee&amp;rft.date=2012&amp;rft.isbn=978-1-4419-9981-8%20978-1-4419-9982-5"></span>
-  </div>
-  <div class="csl-entry">Montgomery, Richard <i>Tangent Vectors: Three or Four Definitions.</i> <a
-      href="https://people.ucsc.edu/~rmont/classes/ManifoldsI/Lectures/TangentSpace.pdf">Online</a>.
-  </div>
-   <div class="csl-entry">Parzygnat, Arthur <i>Analysis II 2017 </i>Youtube Playlist Mar. 2017 <a
-      href="https://www.youtube.com/playlist?list=PLSx1kJDjrLRSBmBeM7NEeKBE5_nEFcKXH">Online</a>.
-  </div>
-  <div class="csl-entry">Schuller, Fredric <i>The WE-Heraeus International Winter School on Gravity and Light 2015 </i> Youtube Playlist Mar. 2015 <a
-      href="https://www.youtube.com/playlist?list=PLFeEvEPtX_0S6vxxiiNPrJbLu9aK1UVC_">Online</a>.
-  </div>
-  <div class="csl-entry">XylyXylyX <i>What is a Manifold?</i> Youtube Playlist Aug. 2017 <a
-      href="https://www.youtube.com/playlist?list=PLRlVmXqzHjUQHEx63ZFxV-0Ortgf-rpJo">Online</a>.
-  </div>
+<div id="ref-ghrist-youtube">
+<p>———. 2019. “Calculus Blue Multivariable Volume 2: Derivatives (Youtube Playlist).” 2019. <a href="https://www.youtube.com/watch?v=HS0mivVKLyo&amp;list=PL8erL0pXF3JZZTnqjginERYYEi1WpLE_V">https://www.youtube.com/watch?v=HS0mivVKLyo&amp;list=PL8erL0pXF3JZZTnqjginERYYEi1WpLE_V</a>.</p>
+</div>
+<div id="ref-isham">
+<p>Isham, C. J. 1999. <em>Modern Differential Geometry for Physicists</em>. 2nd ed. World Scientific Lecture Notes in Physics. World Scientific.</p>
+</div>
+<div id="ref-lee">
+<p>Lee, J. M. 2012. <em>Introduction to Smooth Manifolds</em>. Graduate Texts in Mathematics. Springer New York. <a href="https://doi.org/10.1007/978-1-4419-9982-5">https://doi.org/10.1007/978-1-4419-9982-5</a>.</p>
+</div>
+<div id="ref-montgomery">
+<p>Montgomery, R. 2016. “Tangent Vectors: Three or Four Definitions.” 2016. <a href="https://people.ucsc.edu/~rmont/classes/ManifoldsI/Lectures/TangentSpace.pdf">https://people.ucsc.edu/~rmont/classes/ManifoldsI/Lectures/TangentSpace.pdf</a>.</p>
+</div>
+<div id="ref-parzygnat">
+<p>Parzygnat, A. 2017. “Analysis II 2017 (Youtube Playlist).” 2017. <a href="https://www.youtube.com/playlist?list=PLSx1kJDjrLRSBmBeM7NEeKBE5_nEFcKXH">https://www.youtube.com/playlist?list=PLSx1kJDjrLRSBmBeM7NEeKBE5_nEFcKXH</a>.</p>
+</div>
+<div id="ref-schuller">
+<p>Schuller, F. 2015. “The WE-Heraeus International Winter School on Gravity and Light (Youtube Playlist).” 2015. <a href="https://www.youtube.com/playlist?list=PLFeEvEPtX_0S6vxxiiNPrJbLu9aK1UVC_">https://www.youtube.com/playlist?list=PLFeEvEPtX_0S6vxxiiNPrJbLu9aK1UVC_</a>.</p>
+</div>
+<div id="ref-spivak">
+<p>Spivak, M. 1965. <em>Calculus on Manifolds: A Modern Approach to Classical Theorems of Advanced Calculus</em>. Avalon Publishing.</p>
+</div>
+<div id="ref-XylyXylyX">
+<p>XylyXylyX. 2017. “What Is a Manifold? (Youtube Playlist).” 2017. <a href="https://www.youtube.com/playlist?list=PLRlVmXqzHjUQHEx63ZFxV-0Ortgf-rpJo">https://www.youtube.com/playlist?list=PLRlVmXqzHjUQHEx63ZFxV-0Ortgf-rpJo</a>.</p>
+</div>
+</div>
 </div>
 </div>
 </div>

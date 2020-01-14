@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: default
 title: Smooth Manifolds made Concrete for Dumbasses
 ---
-{% include ConcreteManifolds.html %}
+{% include_relative _posts/ConcreteManifolds.html %}

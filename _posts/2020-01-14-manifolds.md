@@ -1,5 +1,4 @@
 ---
-layout: default
-title: Smooth Manifolds made Concrete for Dumbasses
+layout: empty
 ---
 {% include ConcreteManifolds.html %}
